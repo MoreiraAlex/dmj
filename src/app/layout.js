@@ -16,7 +16,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt_br">
       <body className={openSans.className}>
-        <ThemeProvider attribute="class" defaultTheme="ligth" enableSystem suppressHydrationWarning>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          suppressHydrationWarning
+        >
           <main>{children}</main>
         </ThemeProvider>
       </body>

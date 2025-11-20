@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "../ui/button";
 import { FcGoogle } from "react-icons/fc";
+import { Home, LogOut } from "lucide-react";
+import { useState } from "react";
 
 export function GoogleButton({ loading, setLoading }) {
   async function signInGoogle() {
@@ -60,7 +62,8 @@ export function AnonymousButton({ loading, setLoading }) {
   );
 }
 
-export function Logout({ loading, setLoading }) {
+export function Logout() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   async function logout() {
@@ -80,8 +83,8 @@ export function Logout({ loading, setLoading }) {
   }
 
   return (
-    <Button disabled={loading} onClick={logout}>
-      Sair
+    <Button variant="ghost" disabled={loading} onClick={logout}>
+      <LogOut className="size-10" />
     </Button>
   );
 }
