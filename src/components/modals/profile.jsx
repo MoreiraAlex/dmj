@@ -83,8 +83,8 @@ export function DeleteAccountButton() {
   return (
     <>
       <div onClick={() => setOpen(true)} className="flex flex-col items-center gap-2 p-0">
-        <Trash className="size-12 text-muted-foreground" />
-        <span className="text-sm font-medium text-center">Apagar Conta</span>
+        <Trash className="size-12 text-destructive" />
+        <span className="text-sm font-medium text-center text-destructive">Apagar Conta</span>
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>

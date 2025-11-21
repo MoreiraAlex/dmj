@@ -12,7 +12,6 @@ export const auth = betterAuth({
   }),
   advanced: {
     database: {
-      // generateId: () => new ObjectId().toString(),
       generateId: false,
     },
   },

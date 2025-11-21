@@ -4,12 +4,13 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import Image from "next/image";
 import { DeleteAccountButton, EditNameModal } from "@/components/modals/profile";
-import { updateName } from "@/actions/profile-actions";
+import { getUser, updateName } from "@/actions/profile-actions";
 
 export default async function Profile() {
   const { user } = await auth.api.getSession({
     headers: await headers(),
   });
+  const userInfo = await getUser(user.id);
 
   return (
     <div className="flex flex-col items-center justify-evenly h-[75vh]">
@@ -18,6 +19,10 @@ export default async function Profile() {
 
         <div className="flex items-center gap-2">
           <EditNameModal currentName={user.name} onSave={updateName} />
+        </div>
+        <div className="flex flex-col items-center justify-center">
+          <span className="italic">Nivel {userInfo.level || 0}</span>
+          <span className="italic text-sm">{userInfo.xp || 0}/100</span>
         </div>
       </div>
 
