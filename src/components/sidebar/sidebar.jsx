@@ -47,28 +47,28 @@ export function AppSidebar({ userSession }) {
       <SidebarContent>
         <SidebarMenu className="space-y-4 px-4 py-6">
           <SidebarMenuItem>
-            <Link href="#" className="flex gap-3 items-center text-base">
-              <Image src="/logo.png" alt="ico" width={56} height={56} className="rounded-md" />
+            <Link href="/select?game=crossword" className="flex gap-3 items-center text-base">
+              <Image src="/crossword.png" alt="ico" width={56} height={56} className="rounded-md" />
               Palavras Cruzadas
             </Link>
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <Link href="#" className="flex gap-3 items-center text-base">
-              <Image src="/logo.png" alt="ico" width={56} height={56} className="rounded-md" />
+            <Link href="/select?game=verb" className="flex gap-3 items-center text-base">
+              <Image src="/verb.png" alt="ico" width={56} height={56} className="rounded-md" />
               Verbo
             </Link>
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <Link href="#" className="flex gap-3 items-center text-base">
-              <Image src="/logo.png" alt="ico" width={56} height={56} className="rounded-md" />
+            <Link href="/select?game=wordhunt" className="flex gap-3 items-center text-base">
+              <Image src="/wordhunt.png" alt="ico" width={56} height={56} className="rounded-md" />
               Caça-Palavras
             </Link>
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <Link href="#" className="flex gap-3 items-center text-base text-primary">
+            <Link href="/more" className="flex gap-3 items-center text-base text-primary">
               <Plus className="size-6" />
               Saiba mais
             </Link>
