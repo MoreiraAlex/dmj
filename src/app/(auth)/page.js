@@ -5,7 +5,7 @@ export default function Home() {
     { href: "/select?game=crossword", image: "/crossword.png", title: "Palavras Cruzadas" },
     { href: "/select?game=verb", image: "/verb.png", title: "Verbo" },
     { href: "/select?game=wordhunt", image: "/wordhunt.png", title: "Caça Palavras" },
-    { href: "#", image: "/logo.png", title: "Em breve" },
+    { href: "#", image: "/dmj.png", title: "Em breve" },
   ];
 
   return (
