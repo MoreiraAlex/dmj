@@ -31,4 +31,7 @@ export const auth = betterAuth({
       },
     },
   },
+  logger: {
+    level: "debug",
+  },
 });
