@@ -4,7 +4,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import Image from "next/image";
 import { DeleteAccountButton, EditNameModal } from "@/components/modals/profile";
-import { getUser, updateName } from "@/actions/profile-actions";
+import { getUser, updateName } from "@/actions/profile";
 
 export default async function Profile() {
   const { user } = await auth.api.getSession({
@@ -32,7 +32,7 @@ export default async function Profile() {
           <span className="text-sm font-medium text-center">Conquistas</span>
         </Link>
 
-        <Link href="#" className="flex flex-col items-center gap-2">
+        <Link href="profile/history" className="flex flex-col items-center gap-2">
           <HistoryIcon className="size-12 text-muted-foreground" />
           <span className="text-sm font-medium text-center">Histórico</span>
         </Link>

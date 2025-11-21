@@ -115,6 +115,7 @@ model Jogo {
   senha        String?
   dataCriacao  DateTime?            @default(now())
   ativo        Boolean?             @default(true)
+  capaUrl      String?     
 
   criador      User                 @relation("usuario_jogosCriados", fields: [idCriador], references: [id])
   historicos   Historico[]          @relation("jogo_historicos")

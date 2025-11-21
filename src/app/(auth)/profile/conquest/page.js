@@ -1,4 +1,4 @@
-import { getAllConquistas, getConquistasUsuario } from "@/actions/conquest-actions";
+import { getAllConquistas, getConquistasUsuario } from "@/actions/conquest";
 import { auth } from "@/lib/auth";
 import { Trophy } from "lucide-react";
 import { headers } from "next/headers";

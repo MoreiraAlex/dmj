@@ -23,7 +23,7 @@ export function AppSidebar({ userSession }) {
           {isAnonymous ? (
             <UserCircle className="size-12 text-muted-foreground" />
           ) : (
-            <Link href="profile/">
+            <Link href="/profile/">
               <Image
                 className="rounded-full"
                 src={userSession.user.image}
