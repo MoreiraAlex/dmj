@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { HistoryIcon, Trash, Trophy } from "lucide-react";
+import { HistoryIcon, Trophy } from "lucide-react";
 import Link from "next/link";
 import { headers } from "next/headers";
 import Image from "next/image";
@@ -22,7 +22,7 @@ export default async function Profile() {
       </div>
 
       <div className="flex items-center justify-around w-full">
-        <Link href="#" className="flex flex-col items-center gap-2">
+        <Link href="profile/conquest" className="flex flex-col items-center gap-2">
           <Trophy className="size-12 text-muted-foreground" />
           <span className="text-sm font-medium text-center">Conquistas</span>
         </Link>
