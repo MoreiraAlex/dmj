@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "../ui/button";
 import { FcGoogle } from "react-icons/fc";
-import { Home, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useState } from "react";
 
 export function GoogleButton({ loading, setLoading }) {

@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { Home, Plus, SunMoonIcon, UserCircle } from "lucide-react";
+import { Home, Plus, UserCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Logout } from "@/components/botoes/auth";
@@ -23,13 +23,15 @@ export function AppSidebar({ userSession }) {
           {isAnonymous ? (
             <UserCircle className="size-12 text-muted-foreground" />
           ) : (
-            <Image
-              className="rounded-full"
-              src={userSession.user.image}
-              alt="user image"
-              width={56}
-              height={56}
-            />
+            <Link href="profile/">
+              <Image
+                className="rounded-full"
+                src={userSession.user.image}
+                alt="user image"
+                width={56}
+                height={56}
+              />
+            </Link>
           )}
 
           <span className="text-sm font-medium text-center">{userSession.user.name}</span>
