@@ -4,7 +4,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import Image from "next/image";
 import { DeleteAccountButton, EditNameModal } from "@/components/modals/profile";
-import { updateName } from "./actions";
+import { updateName } from "@/actions/profile-actions";
 
 export default async function Profile() {
   const { user } = await auth.api.getSession({

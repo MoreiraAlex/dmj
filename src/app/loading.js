@@ -5,7 +5,7 @@ export default function Loading() {
   return (
     <div className="flex flex-col gap-10 justify-center items-center h-screen w-screen">
       <Image
-        className="dark:invert"
+        // className="dark:invert"
         src="/logo.png"
         alt="DoMeuJeito logo"
         width={400}

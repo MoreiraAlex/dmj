@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,31 +8,35 @@ datasource db {
 }
 
 model User {
-  id            String    @id @map("_id")
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   email         String
   emailVerified Boolean   @default(false)
   image         String?
   createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
+  updatedAt     DateTime  @updatedAt
+  isAnonymous   Boolean?  @default(false)
+
   sessions      Session[]
   accounts      Account[]
 
-  isAnonymous Boolean?
+  conquistas    ConquistaUsuario[] @relation("usuario_conquistas")
+  historicos    Historico[]        @relation("usuario_historicos")
+  jogosCriados  Jogo[]             @relation("usuario_jogosCriados")
 
   @@unique([email])
   @@map("user")
 }
 
 model Session {
-  id        String   @id @map("_id")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   expiresAt DateTime
   token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ipAddress String?
   userAgent String?
-  userId    String
+  userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
@@ -46,10 +44,10 @@ model Session {
 }
 
 model Account {
-  id                    String    @id @map("_id")
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
   accountId             String
   providerId            String
-  userId                String
+  userId                String    @db.ObjectId
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
@@ -65,7 +63,7 @@ model Account {
 }
 
 model Verification {
-  id         String   @id @map("_id")
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   value      String
   expiresAt  DateTime
@@ -73,4 +71,121 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+model Conquista {
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  nome      String               @unique
+  descricao String?
+  pontosXp  Int?
+  icone     String?
+
+  usuarios  ConquistaUsuario[]   @relation(fields: [], references: [])
+}
+
+model ConquistaUsuario {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  usuarioId    String    @db.ObjectId
+  conquistaId  String    @db.ObjectId
+  dataObtencao DateTime? @default(now())
+
+  usuario      User       @relation("usuario_conquistas", fields: [usuarioId], references: [id])
+  conquista    Conquista  @relation(fields: [conquistaId], references: [id])
+}
+
+model Historico {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  usuarioId String   @db.ObjectId
+  jogoId    String   @db.ObjectId
+  status    String?
+  progresso Int?
+
+  usuario   User  @relation("usuario_historicos", fields: [usuarioId], references: [id])
+  jogo      Jogo  @relation("jogo_historicos", fields: [jogoId], references: [id])
+}
+
+model Jogo {
+  id           String               @id @default(auto()) @map("_id") @db.ObjectId
+  idCriador    String               @db.ObjectId
+  nome         String?
+  tema         String?
+  visibilidade String?
+  senha        String?
+  dataCriacao  DateTime?            @default(now())
+  ativo        Boolean?             @default(true)
+
+  criador      User                 @relation("usuario_jogosCriados", fields: [idCriador], references: [id])
+  historicos   Historico[]          @relation("jogo_historicos")
+  config       Config?              @relation("jogo_config")
+}
+
+model Config {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  jogoId   String   @db.ObjectId @unique
+  tipo     String?
+
+  jogo     Jogo     @relation("jogo_config", fields: [jogoId], references: [id])
+
+  verbo    ConfigJogoVerbo?
+  caca     ConfigJogoCaca?
+  cruzada  ConfigJogoCruzadas?
+}
+
+model ConfigJogoVerbo {
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  configId       String  @db.ObjectId @unique
+  palavraSecreta String?
+  maxTentativas  Int?
+  dica           String?
+
+  config         Config  @relation(fields: [configId], references: [id])
+}
+
+
+model ConfigJogoCaca {
+  id       String           @id @default(auto()) @map("_id") @db.ObjectId
+  configId String           @db.ObjectId @unique
+  altura   Int?
+  largura  Int?
+  tema     String?
+
+  config   Config           @relation(fields: [configId], references: [id])
+  palavras PalavraCaca[]    @relation("caca_palavras")
+}
+
+
+model ConfigJogoCruzadas {
+  id       String               @id @default(auto()) @map("_id") @db.ObjectId
+  configId String               @db.ObjectId @unique
+  altura   Int?
+  largura  Int?
+  tema     String?
+
+  config   Config               @relation(fields: [configId], references: [id])
+  palavras PalavraCruzadas[]    @relation("cruzadas_palavras")
+}
+
+
+model PalavraCaca {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  configCacaId  String  @db.ObjectId
+  palavra       String?
+  direcao       String?
+  posicaoInicial Json?
+  posicaoFinal   Json?
+  dica          String?
+
+  config        ConfigJogoCaca @relation("caca_palavras", fields: [configCacaId], references: [id])
+}
+
+model PalavraCruzadas {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  configCruzadasId String  @db.ObjectId
+  palavra          String?
+  direcao          String?
+  posicaoInicial   Json?
+  posicaoFinal     Json?
+  dica             String?
+
+  config           ConfigJogoCruzadas @relation("cruzadas_palavras", fields: [configCruzadasId], references: [id])
 }

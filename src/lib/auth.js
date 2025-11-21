@@ -10,6 +10,12 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "mongodb",
   }),
+  advanced: {
+    database: {
+      // generateId: () => new ObjectId().toString(),
+      generateId: false,
+    },
+  },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID,
