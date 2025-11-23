@@ -1,6 +1,6 @@
 import { HomeCard } from "@/components/cards/home";
 
-export default function Home() {
+export default async function Home() {
   const jogos = [
     { href: "/select?game=crossword", image: "/crossword.png", title: "Palavras Cruzadas" },
     { href: "/select?game=verb", image: "/verb.png", title: "Verbo" },

@@ -1,18 +1,29 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { checkAnonymousSession } from "@/lib/check-session";
 import { Gamepad, Wrench } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function SelectGame() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const game = searchParams.get("game");
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    async function run() {
+      const isLogged = await checkAnonymousSession();
+      setDisabled(isLogged);
+    }
+    run();
+  }, []);
 
   if (!game) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <p className="text-lg text-red-500">Jogo não encontrado.</p>
+      <div className="flex flex-col items-center justify-center gap-4 text-center">
+        <p className="text-lg">Jogo não encontrado.</p>
         <Button onClick={() => router.push("/")}>Voltar para Home</Button>
       </div>
     );
@@ -47,6 +58,7 @@ export default function SelectGame() {
           onClick={handleCreate}
           variant="outline"
           className="flex flex-col items-center justify-center gap-2 p-4 w-32 h-32 rounded-xl"
+          disabled={disabled}
         >
           <Gamepad className="size-16 text-primary" />
           <span className="text-lg font-bold">Criar</span>
