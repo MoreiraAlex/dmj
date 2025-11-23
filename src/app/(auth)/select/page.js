@@ -29,7 +29,7 @@ export default function SelectGame() {
     );
   }
 
-  const handlePlay = () => router.push(`/select/${game}/play`);
+  const handlePlay = () => router.push(`/select/play?game=${game}`);
   const handleCreate = () => router.push(`/select/${game}/create`);
 
   return (

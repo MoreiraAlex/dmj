@@ -17,7 +17,7 @@ export default function CreateGame() {
     tries: "",
     hint: "",
     title: "",
-    privacy: "",
+    privacy: "public",
     password: "",
   });
 
