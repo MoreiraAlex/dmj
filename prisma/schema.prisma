@@ -96,14 +96,59 @@ model ConquistaUsuario {
 }
 
 model Historico {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  usuarioId String   @db.ObjectId
-  jogoId    String   @db.ObjectId
-  status    String?
-  progresso Int?
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  usuarioId  String      @db.ObjectId
+  jogoId     String      @db.ObjectId
+  status     String?
+  progresso  Progresso?  @relation("HistoricoToProgresso")
 
-  usuario   User  @relation("usuario_historicos", fields: [usuarioId], references: [id])
-  jogo      Jogo  @relation("jogo_historicos", fields: [jogoId], references: [id])
+  usuario   User @relation("usuario_historicos", fields: [usuarioId], references: [id])
+  jogo      Jogo @relation("jogo_historicos", fields: [jogoId], references: [id])
+
+  @@unique([usuarioId, jogoId])
+}
+
+
+model Progresso {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  historicoId  String   @db.ObjectId @unique
+  tipo         String?
+
+  historico    Historico @relation("HistoricoToProgresso", fields: [historicoId], references: [id])
+
+  verbo        ProgressoVerbo?   @relation("ProgressoToVerbo")
+  caca         ProgressoCaca?    @relation("ProgressoToCaca")
+  cruzada      ProgressoCruzada? @relation("ProgressoToCruzada")
+}
+
+
+model ProgressoVerbo {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  progressoId  String  @db.ObjectId @unique
+
+  tentativas   Int
+  palavras     String[]
+  resultados   Json[]
+  acertou      Boolean
+
+  progresso    Progresso @relation("ProgressoToVerbo", fields: [progressoId], references: [id])
+}
+
+model ProgressoCaca {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  progressoId  String   @db.ObjectId @unique
+  achadas      String[]
+  tempo        Int?
+
+  progresso    Progresso @relation("ProgressoToCaca", fields: [progressoId], references: [id])
+}
+
+model ProgressoCruzada {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  progressoId  String   @db.ObjectId @unique
+  respostas    Json
+
+  progresso    Progresso @relation("ProgressoToCruzada", fields: [progressoId], references: [id])
 }
 
 model Jogo {

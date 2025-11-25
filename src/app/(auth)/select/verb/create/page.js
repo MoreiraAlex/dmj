@@ -66,7 +66,7 @@ export default function CreateGame() {
     if (result.error) return setErrors(result.error);
 
     console.log("Jogo criado:", result.jogoId);
-    router.push(`/play/pre?id=${result.jogoId}`);
+    router.push(`/select/verb/${result.jogoId}`);
   }
 
   if (anonymous)

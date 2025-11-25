@@ -20,7 +20,7 @@ export default async function Layout({ children }) {
     <SidebarProvider>
       <AppSidebar userSession={userSession} />
       <div className="flex flex-col w-full">
-        <header className="flex justify-evenly items-center w-full mb-10 p-2 border-b h-20">
+        <header className="flex justify-evenly items-center w-full mb-4 p-2 border-b h-20">
           <SidebarTrigger />
           <Link href="/">
             <Image src="/logo.png" alt="DoMeuJeito logo" width={150} height={100} priority />
