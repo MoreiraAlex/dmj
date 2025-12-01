@@ -2,13 +2,18 @@
 import { getHistorico, salvarProgressoVerbo } from "@/actions/play-game";
 import { Delete } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ModalGameOver } from "@/components/modals/gameOver";
+import { HintModal } from "../modals/hint";
+import { AchievementsSonner } from "@/components/sonner/AchievementsSonner";
 
 export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
   const palavraUpper = palavra.toUpperCase();
   const tamanho = palavraUpper.length;
   const [tentativas, setTentativas] = useState([]);
   const [linhaAtual, setLinhaAtual] = useState("");
-  const [status, setStatus] = useState("");
+  const [modalAberto, setModalAberto] = useState(false);
+  const [ganhou, setGanhou] = useState(false);
+  const [usouDica, setUsouDica] = useState(false);
   const [teclas, setTeclas] = useState({});
   const QWERTY = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
@@ -31,7 +36,6 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
 
   async function confirmarTentativa() {
     if (linhaAtual.length !== tamanho) {
-      setStatus(`A palavra deve ter ${tamanho} letras.`);
       return;
     }
 
@@ -49,16 +53,16 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
     await salvarProgressoVerbo(jogoId, tentativa, acertou, maxTentativas);
 
     if (acertou) {
-      setStatus("Você acertou!");
+      setGanhou(true);
+      setModalAberto(true);
       return;
     }
 
     if (novas.length >= maxTentativas) {
-      setStatus(`Fim de jogo! A palavra era: ${palavraUpper}`);
+      setGanhou(false);
+      setModalAberto(true);
       return;
     }
-
-    setStatus("");
   }
 
   useEffect(() => {
@@ -76,9 +80,11 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
       }
 
       if (verbo.acertou) {
-        setStatus("Você acertou!");
+        setGanhou(true);
+        setModalAberto(true);
       } else if (verbo.palavras.length >= maxTentativas) {
-        setStatus(`Fim de jogo! A palavra era: ${palavraUpper}`);
+        setGanhou(false);
+        setModalAberto(true);
       }
     }
 
@@ -87,8 +93,6 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
 
   useEffect(() => {
     function handleKey(e) {
-      if (status.includes("🎉") || status.includes("❌")) return;
-
       if (e.key === "Backspace") {
         setLinhaAtual((prev) => prev.slice(0, -1));
         return;
@@ -106,14 +110,48 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
 
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [linhaAtual, status]);
+  }, [linhaAtual]);
 
   function calcularCor(letra, index, linhaIndex) {
     const tentativa = tentativas[linhaIndex];
-    if (!tentativa) return "bg-transparent border-4 border-[#312a2c] text-black dark:text-white";
+    if (!tentativa) {
+      return "bg-transparent border-4 border-[#312a2c] text-black dark:text-white";
+    }
 
-    if (palavraUpper[index] === letra) return "bg-[#39a293] text-white";
-    if (palavraUpper.includes(letra)) return "bg-[#d3ad69] text-white";
+    const guess = tentativa.split("");
+    const secret = palavraUpper.split("");
+
+    const freq = {};
+    secret.forEach((l) => {
+      freq[l] = (freq[l] || 0) + 1;
+    });
+
+    const result = Array(guess.length).fill(null);
+    for (let i = 0; i < guess.length; i++) {
+      if (guess[i] === secret[i]) {
+        result[i] = "green";
+        freq[guess[i]]--;
+      }
+    }
+
+    for (let i = 0; i < guess.length; i++) {
+      if (result[i]) continue;
+
+      const letraAtual = guess[i];
+      const disponivel = freq[letraAtual] || 0;
+
+      if (disponivel > 0) {
+        result[i] = "yellow";
+        freq[letraAtual]--;
+      } else {
+        result[i] = "gray";
+      }
+    }
+
+    const cor = result[index];
+
+    if (cor === "green") return "bg-[#39a293] text-white";
+    if (cor === "yellow") return "bg-[#d3ad69] text-white";
     return "bg-[#312a2c] text-white";
   }
 
@@ -144,33 +182,41 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
   }
 
   return (
-    <div className="space-y-6 select-none">
-      {dica && <p className="text-gray-400 text-sm text-center">Dica: {dica}</p>}
-
-      <div className="space-y-2 flex flex-col items-center">
-        {[...Array(maxTentativas)].map((_, linha) => (
-          <div key={linha} className="flex gap-2">
-            {[...Array(tamanho)].map((_, col) => {
-              const letra = getLetra(linha, col);
-              const cor = calcularCor(letra, col, linha);
-
-              return (
-                <div
-                  key={col}
-                  className={`w-12 h-12 flex items-center justify-center 
-                    font-bold  text-xl rounded ${cor}`}
-                >
-                  {letra}
-                </div>
-              );
-            })}
-          </div>
-        ))}
+    <div className="flex flex-col justify-between h-[70vh] w-full select-none py-4 gap-6">
+      <div className="space-y-6">
+        <ModalGameOver
+          aberto={modalAberto}
+          ganhou={ganhou}
+          tentativas={`${tentativas.length}/${maxTentativas}`}
+          ajuda={usouDica}
+          palavraUpper={palavraUpper}
+          link="/select/play?game=verb"
+        />
       </div>
 
-      <p className="font-semibold">{status}</p>
+      <div className="flex flex-col items-start justify-start flex-1 overflow-y-scroll">
+        <div className="space-y-2 w-full">
+          {[...Array(maxTentativas)].map((_, linha) => (
+            <div key={linha} className="flex justify-around">
+              {[...Array(tamanho)].map((_, col) => {
+                const letra = getLetra(linha, col);
+                const cor = calcularCor(letra, col, linha);
 
-      <div className="space-y-2 mx-auto w-full max-w-md">
+                return (
+                  <div
+                    key={col}
+                    className={`max-w-8 h-8 xt-xl rounded ${cor} flex justify-center items-center p-2`}
+                  >
+                    {letra}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-2 mx-auto w-full max-w-md pb-4">
         {QWERTY.map((linha, i) => (
           <div key={i} className="flex justify-center gap-1">
             {i === 2 && (
@@ -195,7 +241,7 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
             {i === 2 && (
               <button
                 onClick={() => pressKey("ENTER")}
-                className="px-3 bg-[#312a2c]  rounded text-sm text-white"
+                className="px-3 bg-[#312a2c] rounded text-sm text-white"
               >
                 ENTER
               </button>
@@ -203,6 +249,8 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
           </div>
         ))}
       </div>
+
+      {dica && <HintModal hint={dica} setClicou={setUsouDica} />}
     </div>
   );
 }

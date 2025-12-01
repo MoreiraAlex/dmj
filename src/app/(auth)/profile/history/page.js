@@ -1,4 +1,5 @@
 import { getJogosCriados, getJogosJogados } from "@/actions/history";
+import HistoryHelp from "@/components/helpers/history";
 import { HistoryTabs } from "@/components/tabs/history";
 import { auth } from "@/lib/auth";
 import { HistoryIcon } from "lucide-react";
@@ -14,6 +15,7 @@ export default async function History() {
 
   return (
     <div className="space-y-10">
+      <HistoryHelp />
       <div className="flex flex-col items-center gap-2">
         <HistoryIcon className="size-20 text-muted-foreground" />
         <span className="text-md font-medium text-center">Histórico</span>

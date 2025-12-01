@@ -38,6 +38,9 @@ export function HistoryTabs({ criados, jogados }) {
               image={jogo.capaUrl ?? "/logo.png"}
               nome={jogo.nome}
               date={jogo.dataCriacao}
+              id={jogo.id}
+              game="verb"
+              isPrivate={jogo.visibilidade === "private"}
             />
           ))}
         </div>
@@ -56,6 +59,9 @@ export function HistoryTabs({ criados, jogados }) {
               nome={jogo.jogo.nome}
               date={jogo.jogo.dataCriacao}
               user={jogo.jogo.criador.name}
+              id={jogo.jogo.id}
+              game="verb"
+              isPrivate={jogo.jogo.visibilidade === "private"}
             />
           ))}
         </div>

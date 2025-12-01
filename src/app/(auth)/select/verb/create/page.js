@@ -1,6 +1,7 @@
 "use client";
 import { Verbo } from "@/actions/create-game";
-import { PasswordModal } from "@/components/modals/password";
+import { PasswordCreateModal } from "@/components/modals/passwordCreate";
+import { AchievementsSonner } from "@/components/sonner/AchievementsSonner";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { checkAnonymousSession } from "@/lib/check-session";
@@ -10,6 +11,8 @@ import { useEffect, useState } from "react";
 
 export default function CreateGame() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [unlockAchievement, setUnlockAchievement] = useState(false);
   const [anonymous, setAnonymous] = useState(false);
   const [errors, setErrors] = useState("");
   const [form, setForm] = useState({
@@ -49,6 +52,9 @@ export default function CreateGame() {
   }
 
   async function handleCreate() {
+    if (loading) return;
+    setLoading(true);
+
     if (!form.title) return setErrors("O título é obrigatório.");
 
     if (form.privacy === "private" && !form.password)
@@ -64,8 +70,8 @@ export default function CreateGame() {
     });
 
     if (result.error) return setErrors(result.error);
+    setUnlockAchievement(true);
 
-    console.log("Jogo criado:", result.jogoId);
     router.push(`/select/verb/${result.jogoId}`);
   }
 
@@ -79,6 +85,8 @@ export default function CreateGame() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-8 px-6 text-center">
+      {unlockAchievement && <AchievementsSonner nome="Começando" check={true} />}
+
       <Image
         src="/verb.png"
         alt="Verbo"
@@ -128,7 +136,7 @@ export default function CreateGame() {
           />
         </div>
 
-        <PasswordModal
+        <PasswordCreateModal
           title={form.title}
           privacy={form.privacy}
           password={form.password}
@@ -136,6 +144,7 @@ export default function CreateGame() {
           handleChange={handleChange}
           onOpen={handleOpenModal}
           handleCreate={handleCreate}
+          loading={loading}
         />
       </div>
     </div>

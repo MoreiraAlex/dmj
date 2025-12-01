@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth";
 import { Trophy } from "lucide-react";
 import { headers } from "next/headers";
 import { ConquistaItem } from "@/components/modals/conquest";
+import { AchievementsSonner } from "@/components/sonner/AchievementsSonner";
+import ConquestHelp from "@/components/helpers/conquest";
 
 export default async function Conquest() {
   const { user } = await auth.api.getSession({
@@ -19,6 +21,8 @@ export default async function Conquest() {
 
   return (
     <div className="space-y-10">
+      <ConquestHelp />
+      <AchievementsSonner nome="Explorador" check={true} />
       <div className="flex flex-col items-center">
         <Trophy className="size-20 text-muted-foreground" />
         <span className="text-md font-medium text-center">Conquistas</span>

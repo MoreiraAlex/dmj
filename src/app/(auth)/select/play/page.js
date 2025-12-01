@@ -12,7 +12,7 @@ export default function List() {
 
   useEffect(() => {
     async function run() {
-      const games = await ListGame("verbo");
+      const games = await ListGame(game);
       setGames(games);
     }
     run();

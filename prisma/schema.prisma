@@ -102,8 +102,8 @@ model Historico {
   status     String?
   progresso  Progresso?  @relation("HistoricoToProgresso")
 
-  usuario   User @relation("usuario_historicos", fields: [usuarioId], references: [id])
-  jogo      Jogo @relation("jogo_historicos", fields: [jogoId], references: [id])
+  usuario   User @relation("usuario_historicos", fields: [usuarioId], references: [id], onDelete: Cascade)
+  jogo      Jogo @relation("jogo_historicos", fields: [jogoId], references: [id], onDelete: Cascade)
 
   @@unique([usuarioId, jogoId])
 }
@@ -114,7 +114,7 @@ model Progresso {
   historicoId  String   @db.ObjectId @unique
   tipo         String?
 
-  historico    Historico @relation("HistoricoToProgresso", fields: [historicoId], references: [id])
+  historico    Historico @relation("HistoricoToProgresso", fields: [historicoId], references: [id], onDelete: Cascade)
 
   verbo        ProgressoVerbo?   @relation("ProgressoToVerbo")
   caca         ProgressoCaca?    @relation("ProgressoToCaca")
@@ -131,7 +131,7 @@ model ProgressoVerbo {
   resultados   Json[]
   acertou      Boolean
 
-  progresso    Progresso @relation("ProgressoToVerbo", fields: [progressoId], references: [id])
+  progresso    Progresso @relation("ProgressoToVerbo", fields: [progressoId], references: [id], onDelete: Cascade)
 }
 
 model ProgressoCaca {
@@ -140,7 +140,7 @@ model ProgressoCaca {
   achadas      String[]
   tempo        Int?
 
-  progresso    Progresso @relation("ProgressoToCaca", fields: [progressoId], references: [id])
+  progresso    Progresso @relation("ProgressoToCaca", fields: [progressoId], references: [id], onDelete: Cascade)
 }
 
 model ProgressoCruzada {
@@ -148,7 +148,7 @@ model ProgressoCruzada {
   progressoId  String   @db.ObjectId @unique
   respostas    Json
 
-  progresso    Progresso @relation("ProgressoToCruzada", fields: [progressoId], references: [id])
+  progresso    Progresso @relation("ProgressoToCruzada", fields: [progressoId], references: [id], onDelete: Cascade)
 }
 
 model Jogo {
@@ -162,7 +162,7 @@ model Jogo {
   ativo        Boolean?             @default(true)
   capaUrl      String?     
 
-  criador      User                 @relation("usuario_jogosCriados", fields: [idCriador], references: [id])
+  criador      User                 @relation("usuario_jogosCriados", fields: [idCriador], references: [id], onDelete: Cascade)
   historicos   Historico[]          @relation("jogo_historicos")
   config       Config?              @relation("jogo_config")
 }
@@ -172,7 +172,7 @@ model Config {
   jogoId   String   @db.ObjectId @unique
   tipo     String?
 
-  jogo     Jogo     @relation("jogo_config", fields: [jogoId], references: [id])
+  jogo     Jogo     @relation("jogo_config", fields: [jogoId], references: [id], onDelete: Cascade)
 
   verbo    ConfigJogoVerbo?
   caca     ConfigJogoCaca?
@@ -186,7 +186,7 @@ model ConfigJogoVerbo {
   maxTentativas  Int?
   dica           String?
 
-  config         Config  @relation(fields: [configId], references: [id])
+  config         Config  @relation(fields: [configId], references: [id], onDelete: Cascade)
 }
 
 
@@ -197,7 +197,7 @@ model ConfigJogoCaca {
   largura  Int?
   tema     String?
 
-  config   Config           @relation(fields: [configId], references: [id])
+  config   Config           @relation(fields: [configId], references: [id], onDelete: Cascade)
   palavras PalavraCaca[]    @relation("caca_palavras")
 }
 
@@ -209,7 +209,7 @@ model ConfigJogoCruzadas {
   largura  Int?
   tema     String?
 
-  config   Config               @relation(fields: [configId], references: [id])
+  config   Config               @relation(fields: [configId], references: [id], onDelete: Cascade)
   palavras PalavraCruzadas[]    @relation("cruzadas_palavras")
 }
 
@@ -223,7 +223,7 @@ model PalavraCaca {
   posicaoFinal   Json?
   dica          String?
 
-  config        ConfigJogoCaca @relation("caca_palavras", fields: [configCacaId], references: [id])
+  config        ConfigJogoCaca @relation("caca_palavras", fields: [configCacaId], references: [id], onDelete: Cascade)
 }
 
 model PalavraCruzadas {
@@ -235,5 +235,5 @@ model PalavraCruzadas {
   posicaoFinal     Json?
   dica             String?
 
-  config           ConfigJogoCruzadas @relation("cruzadas_palavras", fields: [configCruzadasId], references: [id])
+  config           ConfigJogoCruzadas @relation("cruzadas_palavras", fields: [configCruzadasId], references: [id], onDelete: Cascade)
 }

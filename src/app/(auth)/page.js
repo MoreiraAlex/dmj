@@ -1,15 +1,17 @@
 import { HomeCard } from "@/components/cards/home";
+import HomeHelp from "@/components/helpers/home";
 
 export default async function Home() {
   const jogos = [
-    { href: "/select?game=crossword", image: "/crossword.png", title: "Palavras Cruzadas" },
     { href: "/select?game=verb", image: "/verb.png", title: "Verbo" },
-    { href: "/select?game=wordhunt", image: "/wordhunt.png", title: "Caça Palavras" },
-    { href: "#", image: "/dmj.png", title: "Em breve" },
+    { href: "/coming", image: "/crossword.png", title: "Palavras Cruzadas" },
+    { href: "/coming", image: "/wordhunt.png", title: "Caça Palavras" },
+    { href: "/coming", image: "/dmj.png", title: "Em breve" },
   ];
 
   return (
     <div className="text-center px-4 py-12 space-y-12">
+      <HomeHelp />
       <h1 className="text-3xl font-bold text-primary">Nossos Jogos</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 justify-items-center">
         {jogos.map((jogo) => (

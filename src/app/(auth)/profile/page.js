@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import Image from "next/image";
 import { DeleteAccountButton, EditNameModal } from "@/components/modals/profile";
 import { getUser, updateName } from "@/actions/profile";
+import ProfileHelp from "@/components/helpers/profile";
 
 export default async function Profile() {
   const { user } = await auth.api.getSession({
@@ -14,6 +15,7 @@ export default async function Profile() {
 
   return (
     <div className="flex flex-col items-center justify-evenly h-[75vh]">
+      <ProfileHelp />
       <div className="flex flex-col items-center gap-2">
         <Image className="rounded-full" src={user.image} alt="user image" width={80} height={80} />
 

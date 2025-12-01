@@ -107,6 +107,7 @@ export function GameTabs({ game, publicos, privados }) {
                 user={jogo.criador.name}
                 game={game}
                 id={jogo.id}
+                isPrivate={true}
               />
             ))}
           </div>

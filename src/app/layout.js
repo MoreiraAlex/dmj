@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Open_Sans } from "next/font/google";
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           suppressHydrationWarning
         >
           <main>{children}</main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

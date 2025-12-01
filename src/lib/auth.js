@@ -25,9 +25,6 @@ export const auth = betterAuth({
   user: {
     deleteUser: {
       enabled: true,
-      beforeDelete: async (user) => {
-        // Se quiser fazer algo antes de excluir (limpeza, logs, checagem)
-      },
     },
   },
   logger: {

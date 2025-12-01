@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Plus } from "lucide-react";
 
-export function PasswordModal({
+export function PasswordCreateModal({
   title,
   privacy,
   password,
@@ -14,6 +14,7 @@ export function PasswordModal({
   handleChange,
   onOpen,
   handleCreate,
+  loading,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -85,7 +86,9 @@ export function PasswordModal({
               Voltar
             </Button>
 
-            <Button onClick={() => handleCreate()}>Criar</Button>
+            <Button onClick={() => handleCreate()} disabled={loading}>
+              {loading ? "Criando..." : "Criar"}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
