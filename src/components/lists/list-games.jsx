@@ -7,7 +7,7 @@ import { PasswordPlayModal } from "../modals/PasswordPlay";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function ListItem({ image, nome, date, user, game, id, isPrivate }) {
+export function ListItem({ image, nome, date, user, game, id, completed, isPrivate }) {
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
 
@@ -37,7 +37,9 @@ export function ListItem({ image, nome, date, user, game, id, isPrivate }) {
             </div>
 
             <div className="flex flex-col text-xs text-muted-foreground gap-2">
-              <span className="bg-primary rounded-2xl p-2 text-center text-primary-foreground font-bold">
+              <span
+                className={`${completed ? "bg-[#39a293] text-white" : "bg-primary"} rounded-2xl p-2 text-center text-primary-foreground font-bold`}
+              >
                 {new Date(date).toLocaleDateString("pt-BR")}
               </span>
               {user && <span>De: {user}</span>}

@@ -14,9 +14,8 @@ export async function ListGame({ type }) {
     if (!user) {
       return { error: "Usuário não autenticado" };
     }
-
     const games = await prisma.jogo.findMany({
-      include: { config: true, criador: true },
+      include: { config: true, criador: true, historicos: { where: { usuarioId: user.id } } },
       where: { ativo: true, config: { tipo: type } },
     });
 

@@ -3,11 +3,11 @@ export default function SelectGame() {
     <div className="space-y-16 text-center p-2">
       <h1 className="text-3xl font-bold">Saiba mais</h1>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Do Meu Jeito é uma plataforma criada para quem gosta de aprender brincando. Inspirada por
+        jogos de palavras, ela permite que qualquer pessoa crie seus próprios desafios ou jogue os
+        feitos por outros. O objetivo é tornar o aprendizado mais leve, divertido e acessível — seja
+        na educação ou por simples entretenimento. Um espaço onde curiosidade, criatividade e
+        conhecimento se encontram.
       </p>
     </div>
   );

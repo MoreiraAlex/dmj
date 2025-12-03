@@ -86,6 +86,7 @@ export function GameTabs({ game, publicos, privados }) {
                 date={jogo.dataCriacao}
                 user={jogo.criador.name}
                 game={game}
+                completed={jogo?.historicos[0]?.status === "completed"}
                 id={jogo.id}
               />
             ))}
@@ -107,6 +108,7 @@ export function GameTabs({ game, publicos, privados }) {
                 user={jogo.criador.name}
                 game={game}
                 id={jogo.id}
+                completed={jogo?.historicos[0]?.status === "completed"}
                 isPrivate={true}
               />
             ))}

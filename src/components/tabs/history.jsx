@@ -39,6 +39,7 @@ export function HistoryTabs({ criados, jogados }) {
               nome={jogo.nome}
               date={jogo.dataCriacao}
               id={jogo.id}
+              completed={jogo?.historicos[0]?.status === "completed"}
               game="verb"
               isPrivate={jogo.visibilidade === "private"}
             />
@@ -61,6 +62,7 @@ export function HistoryTabs({ criados, jogados }) {
               user={jogo.jogo.criador.name}
               id={jogo.jogo.id}
               game="verb"
+              completed={jogo.status === "completed"}
               isPrivate={jogo.jogo.visibilidade === "private"}
             />
           ))}

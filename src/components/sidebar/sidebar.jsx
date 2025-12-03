@@ -1,3 +1,4 @@
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -12,8 +13,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Logout } from "@/components/botoes/auth";
 import { ThemeButton } from "../botoes/theme";
+import { useTheme } from "next-themes";
 
 export function AppSidebar({ userSession }) {
+  const { theme } = useTheme();
   const isAnonymous = userSession.user.isAnonymous;
 
   return (
@@ -62,7 +65,13 @@ export function AppSidebar({ userSession }) {
 
           <SidebarMenuItem>
             <Link href="/coming" className="flex gap-3 items-center text-base">
-              <Image src="/wordhunt.png" alt="ico" width={56} height={56} className="rounded-md" />
+              <Image
+                src={theme === "light" ? "/wordhunt.png" : "/wordhuntDark.png"}
+                alt="ico"
+                width={56}
+                height={56}
+                className="rounded-md"
+              />
               Caça-Palavras
             </Link>
           </SidebarMenuItem>

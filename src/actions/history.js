@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function getJogosCriados(userId) {
   return prisma.jogo.findMany({
     where: { idCriador: userId },
-    include: { criador: true },
+    include: { criador: true, historicos: { where: { usuarioId: userId } } },
     orderBy: { dataCriacao: "desc" },
   });
 }

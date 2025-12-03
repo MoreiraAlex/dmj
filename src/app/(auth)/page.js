@@ -1,11 +1,19 @@
+"use client";
 import { HomeCard } from "@/components/cards/home";
 import HomeHelp from "@/components/helpers/home";
+import { useTheme } from "next-themes";
 
-export default async function Home() {
+export default function Home() {
+  const { theme } = useTheme();
+
   const jogos = [
     { href: "/select?game=verb", image: "/verb.png", title: "Verbo" },
     { href: "/coming", image: "/crossword.png", title: "Palavras Cruzadas" },
-    { href: "/coming", image: "/wordhunt.png", title: "Caça Palavras" },
+    {
+      href: "/coming",
+      image: theme === "light" ? "/wordhunt.png" : "/wordhuntDark.png",
+      title: "Caça Palavras",
+    },
     { href: "/coming", image: "/dmj.png", title: "Em breve" },
   ];
 
