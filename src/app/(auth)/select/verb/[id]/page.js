@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import TermoGame from "@/components/games/TermoGame";
+import PlayVerbHelp from "@/components/helpers/playVerb";
 
 export default function SelectGame() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function SelectGame() {
   if (!game || game.error || Object.keys(game).length === 0) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 text-center">
+        <PlayVerbHelp />
         <p className="text-lg font-semibold">Jogo não encontrado!</p>
         <Button onClick={() => router.push("/")}>Voltar para Home</Button>
       </div>
@@ -28,6 +30,7 @@ export default function SelectGame() {
   }
   return (
     <div className="p-6 max-w-xl mx-auto">
+      <PlayVerbHelp />
       <h1 className="text-2xl font-bold mb-2 text-center">#{game.nome}</h1>
 
       <TermoGame

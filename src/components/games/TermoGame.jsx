@@ -4,7 +4,6 @@ import { Delete } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ModalGameOver } from "@/components/modals/gameOver";
 import { HintModal } from "../modals/hint";
-import { AchievementsSonner } from "@/components/sonner/AchievementsSonner";
 
 export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
   const palavraUpper = palavra.toUpperCase();

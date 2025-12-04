@@ -15,13 +15,13 @@ export function HelpModal() {
       <HelpCircle className="size-10" onClick={() => setOpen(true)} />
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-sm space-y-6">
+        <DialogContent className="max-w-sm space-y-2">
           <DialogHeader>
             <DialogTitle className="flex items-center justify-center">
               <HelpCircle className="size-12" />
             </DialogTitle>
           </DialogHeader>
-          <div className="text-center">{content}</div>
+          <div className="text-center max-h-[500px] overflow-y-scroll">{content}</div>
         </DialogContent>
       </Dialog>
     </>

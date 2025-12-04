@@ -4,6 +4,7 @@ import Image from "next/image";
 import { GameTabs } from "@/components/tabs/game";
 import { useEffect, useState } from "react";
 import { ListGame } from "@/actions/list-game";
+import PlayHelp from "@/components/helpers/play";
 
 export default function List() {
   const [games, setGames] = useState([]);
@@ -20,6 +21,7 @@ export default function List() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-8 px-4 text-center">
+      <PlayHelp />
       <Image
         src={`/${game}.png`}
         alt={game}

@@ -1,5 +1,6 @@
 "use client";
 import { Verbo } from "@/actions/create-game";
+import CreateVerbHelp from "@/components/helpers/createVerb";
 import { PasswordCreateModal } from "@/components/modals/passwordCreate";
 import { AchievementsSonner } from "@/components/sonner/AchievementsSonner";
 import { Button } from "@/components/ui/button";
@@ -78,6 +79,7 @@ export default function CreateGame() {
   if (anonymous)
     return (
       <div className="flex flex-col items-center justify-center gap-4 text-center h-screen">
+        <CreateVerbHelp />
         <p className="text-lg font-semibold">Sem permissão suficiente para acessar essa página</p>
         <Button onClick={() => router.push("/")}>Voltar para Home</Button>
       </div>
@@ -86,6 +88,7 @@ export default function CreateGame() {
   return (
     <div className="flex flex-col items-center justify-center gap-8 px-6 text-center">
       {unlockAchievement && <AchievementsSonner nome="Começando" check={true} />}
+      <CreateVerbHelp />
 
       <Image
         src="/verb.png"
