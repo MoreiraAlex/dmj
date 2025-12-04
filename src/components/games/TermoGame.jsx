@@ -193,6 +193,10 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
         />
       </div>
 
+      {dica && tentativas.length === maxTentativas - 1 && (
+        <HintModal hint={dica} setClicou={setUsouDica} />
+      )}
+
       <div className="flex flex-col items-start justify-start flex-1 overflow-y-scroll">
         <div className="space-y-2 w-full">
           {[...Array(maxTentativas)].map((_, linha) => (
@@ -248,8 +252,6 @@ export default function TermoGame({ jogoId, palavra, maxTentativas, dica }) {
           </div>
         ))}
       </div>
-
-      {dica && <HintModal hint={dica} setClicou={setUsouDica} />}
     </div>
   );
 }

@@ -14,7 +14,8 @@ export function HintModal({ hint, setClicou }) {
           setOpen(true);
           setClicou(true);
         }}
-        className="absolute top-[90%] left-[80%] hover:cursor-pointer"
+        className="w-10 mx-auto hover:cursor-pointer"
+        // className="absolute top-[90%] left-[80%] hover:cursor-pointer"
       >
         <Lightbulb />
       </Button>
